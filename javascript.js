@@ -13,17 +13,17 @@ function arrayToNumber(arr) {
 }
 
 
-function add(a,b)
-{
-    return a+b;
-}
+
+
+
+
+
+
+
 
 
 //-------------------------------------
  
-let current_input = [0];
-let current_output = 0;
-
 
 
 let numbers = document.querySelectorAll(".num");
@@ -52,46 +52,80 @@ swapElements(numbers,1,6);
 swapElements(numbers,2,9);
 
 
+let currentSymbol = "";
+let current_input = [0];
 
-
-
-//event click za brojeve
-for(let i = 0; i<numbers.length; i++)
+for(let i = 0; i<10;i++)
 {
     numbers[i].addEventListener('click', () =>{
-        //ako je prva znamenka 0 ili ako se vise puta pise 0 da se ne registrira
-        if(current_input.length === 1 && current_input[0] === 0)
-        {
-            current_input.shift();
-        }
-
-       if(current_input === [0])
-       {
-            
-        current_input = i; 
-       }
-       else{
-           
-            current_input.push(i);
-        }
-
-
-        input.innerHTML = arrayToNumber(current_input);
-        console.log(arrayToNumber(current_input));
-        console.log(output.firstChild.textContent);
-    });
+        current_input.push(i);
+        input.innerHTML = currentSymbol + " " + arrayToNumber(current_input);
+    })
 }
 
+let count = 0;
+let isFirst = false;
+let isFirstNegative = false;
+let lastMath = "";
+math.forEach((element) =>{
+    element.addEventListener('click', ()=>{
+        currentSymbol = element.firstChild.nodeValue;
+        input.innerHTML = element.firstChild.nodeValue + " " +"0";
+        count++;
+        let x; 
+        console.log(current_input);
+        if(count == 1)
+        {
+            isFirst = true;
 
+            if(element.firstChild.nodeValue == '-')
+            {
+                isFirstNegative = true;
+            }
+        }
 
-plus.addEventListener('click', () =>{
-    
-    current_output = arrayToNumber(current_input) + Number(output.firstChild.textContent);
-    output.innerHTML = current_output;
-    input.innerHTML = 0;
-    current_input = [0];
+        if(count == 2 && isFirstNegative)
+        {
+            output.innerHTML = Math.abs(arrayToNumber(current_input));
+            //input.innerHTML = "0";
+            isFirstNegative = false;
+
+        }
+        else if(count == 1){
+            output.innerHTML = arrayToNumber(current_input);
+            //input.innerHTML = "0";
+        }
+        else{
+            switch(lastMath){
+                case '+': 
+                    output.innerHTML =arrayToNumber(output.firstChild.nodeValue) + arrayToNumber(current_input); 
+                    break;
+                case '-': 
+                    output.innerHTML = arrayToNumber(output.firstChild.nodeValue) - arrayToNumber(current_input); 
+                    break;
+                case 'x': 
+                    output.innerHTML = arrayToNumber(output.firstChild.nodeValue) * arrayToNumber(current_input); 
+                    break;
+                case '/': 
+                    output.innerHTML = arrayToNumber(output.firstChild.nodeValue) / arrayToNumber(current_input); 
+                    break;
+                
+
+            }
+        }
+       
+        
+
+        console.log(output.firstChild.nodeValue);
+        
+
+        console.log(lastMath);
+
+        lastMath = element.firstChild.nodeValue;
+        current_input = [0];
+       
+    })
 })
-
 
 
 

@@ -1,8 +1,9 @@
+//swaps two elements in array
 const swapElements = (myArray, index1, index2) => {
     [myArray[index1], myArray[index2]] = [myArray[index2], myArray[index1]];
 };
 
-
+// converts array to number
 function arrayToNumber(arr) {
    let result = 0;
    let negat = 1;
@@ -38,11 +39,7 @@ let numbers = document.querySelectorAll(".num");
 let input = document.querySelector(".input");
 let output = document.querySelector(".output");
 
-let divide = document.querySelector(".divide");
-let multiply = document.querySelector(".multiply");
-let minus = document.querySelector(".minus");
-let plus = document.querySelector(".plus");
-let equal = document.querySelector(".equal");
+
 
 let math = [...document.querySelectorAll(".math")];
 
@@ -60,26 +57,30 @@ swapElements(numbers,1,6);
 swapElements(numbers,2,9);
 
 
-let currentSymbol = "";
+
 let current_input = [0];
-let isEqualClicked = false;
 let count = 0;
+
+let isEqualClicked = false;
 let isFirst = false;
-let isFirstNegative = false;
-let lastMath = "";
+let isFirstNegative = false; 
 
+let currentSymbol = ""; // current symbol used
+let lastMath = ""; //last math symbol
 
+//event lisened for numbers
 for(let i = 0; i<10;i++)
 {
-    
     numbers[i].addEventListener('click', () =>{
-        if(isEqualClicked)
+        if(isEqualClicked) //if equal is clicked 
         {
             isEqualClicked = false;
             output.innerHTML = "0";
         }
+
         current_input.push(i);
-        if(currentSymbol == "=")
+
+        if(currentSymbol == "=") // postavljanje na default
         {
             currentSymbol = ""; 
         }
@@ -89,50 +90,47 @@ for(let i = 0; i<10;i++)
 }
 
 
-
+// event lisener for math operators
 math.forEach((element) =>{
     element.addEventListener('click', ()=>{
         
         currentSymbol = element.firstChild.nodeValue;
-        if(currentSymbol == "=")
+        if(currentSymbol == "=") // postavljanje na default
         {
             currentSymbol = ""; 
         }
 
-        input.innerHTML = currentSymbol + " " +"0";
+        input.innerHTML = currentSymbol + " " + "0";
         count++;
-        let x; 
         
+        //if number is first inputed
         if(count == 1)
         {
             isFirst = true;
         }
-
+        //check if first number is negative
         if(element.firstChild.nodeValue == '-' && count == 1)
-         {
+        {
             isFirstNegative = true;
-         }
+        }
 
        
-        if(isFirst){
+        if(isFirst){ 
             output.innerHTML = arrayToNumber(current_input);
             isFirst = false;
             isFirstNegative = false;
-            //input.innerHTML = "0";
+            
         }
         else if(count == 2 && isFirstNegative)
         {
             output.innerHTML = -1 * arrayToNumber(current_input) ;
-            //input.innerHTML = "0";
+            
             isFirstNegative = false;
             isFirst = false;
 
         }
         else{
-            //if(output.firstChild.nodeValue == "")
-            //{
-             //   output.innerHTML = 0;
-            //}
+            
             switch(lastMath){
                 case '+': 
                     output.innerHTML =arrayToNumber(output.firstChild.nodeValue) + arrayToNumber(current_input); 
@@ -151,8 +149,8 @@ math.forEach((element) =>{
             }
         }
 
-
-        if(element.firstChild.nodeValue == '='){
+        // defaulting options
+        if(element.firstChild.nodeValue == '='){ 
             count = 0;
             input.innerHTML = 0;
             isEqualClicked = true;

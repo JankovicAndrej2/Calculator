@@ -39,6 +39,8 @@ let numbers = document.querySelectorAll(".num");
 let input = document.querySelector(".input");
 let output = document.querySelector(".output");
 
+let remove = document.querySelector(".delete");
+let clear = document.querySelector(".clear");
 
 
 let math = [...document.querySelectorAll(".math")];
@@ -164,6 +166,49 @@ math.forEach((element) =>{
        
     })
 })
+
+
+
+
+
+clear.addEventListener("click", ()=>{
+    input.innerHTML = "0";
+    output.innerHTML = "0";
+    count = 0;
+    current_input = [0];
+    isEqualClicked = false;
+    isFirst = false;
+    isFirstNegative = false; 
+    
+    currentSymbol = ""; 
+    lastMath = ""; 
+});
+
+
+
+remove.addEventListener('click', () =>{
+    let x = input.firstChild.nodeValue;
+    let prefix = 1;
+    if(input.firstChild.nodeValue[0])
+    {
+        prefix = -1;
+    }
+   
+
+    if(current_input.length>1)
+    {
+        current_input.pop();
+        
+        input.innerHTML =prefix *arrayToNumber(current_input);
+
+    }else{
+        
+        input.innerHTML=prefix *arrayToNumber(current_input);
+    }
+})
+
+
+
 
 
 
